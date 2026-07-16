@@ -14,6 +14,7 @@ import {
   usePortfolioContent,
   type PortfolioContent,
 } from "@/lib/portfolio-content";
+import { backendUri } from "@/lib/backend-endpoint";
 
 const AUTH_KEY = "portfolio-admin-auth";
 const ADMIN_USER = "admin";
@@ -38,7 +39,7 @@ function AdminPage() {
     if (!token) {
       setAuthed(false);
     } else {
-      const response = await fetch("http://localhost:8080/api/auth/me", {
+      const response = await fetch(`${backendUri}/api/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
