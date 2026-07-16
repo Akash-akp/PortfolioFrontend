@@ -66,7 +66,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const response = fetch("http://localhost:8080/api/auth/login", {
+    const response = fetch(`${backendUri}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
