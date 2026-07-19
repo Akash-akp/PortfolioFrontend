@@ -41,10 +41,13 @@ export function LoadingScreen({ show }: { show: boolean }) {
             <div className="relative h-1 w-56 overflow-hidden rounded-full bg-secondary/60">
               <motion.div
                 initial={{ x: "-100%" }}
-                animate={{ x: "100%" }}
+                animate={{ x: "200%" }}
                 transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute inset-y-0 w-1/2 bg-[image:var(--gradient-primary)]"
               />
+            </div>
+            <div className="text-[10px] md:text-sm font-mono text-muted-foreground">
+              If it takes time, the backend is starting. Please wait a few seconds and refresh.
             </div>
           </div>
         </motion.div>

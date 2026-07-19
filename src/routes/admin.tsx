@@ -14,7 +14,7 @@ import {
   usePortfolioContent,
   type PortfolioContent,
 } from "@/lib/portfolio-content";
-import { backendUri } from "@/lib/backend-endpoint";
+import { backendUri, portfolioId } from "@/lib/backend-endpoint";
 
 const AUTH_KEY = "portfolio-admin-auth";
 const ADMIN_USER = "admin";
@@ -99,17 +99,14 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="u">Username</Label>
-          <Input id="u" autoFocus value={username} onChange={(e) => setUsername(e.target.value)} placeholder="admin" />
+          <Input id="u" autoFocus value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="p">Password</Label>
-          <Input id="p" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="admin" />
+          <Input id="p" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         </div>
         {err && <p className="text-xs text-destructive">{err}</p>}
         <Button type="submit" className="w-full rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground border-0">Sign in</Button>
-        <p className="text-[11px] text-muted-foreground text-center">
-          Note: This is a client-side gate for demo editing (saved to your browser). Not for production security.
-        </p>
       </form>
     </div>
   );
@@ -133,7 +130,7 @@ function Editor({ onLogout }: { onLogout: () => void }) {
   const [active, setActive] = useState<keyof PortfolioContent>("hero");
   const [defaultContent, setDefaultContent] = useState<PortfolioContent>();
   async function fetchDefaultContent(){
-    const response = await fetch("http://localhost:8080/api/portfolio/1");
+    const response = await fetch(`${backendUri}/api/portfolio/${portfolioId}`);
     const data = await response.json();
     setDefaultContent(data);
   }
@@ -172,19 +169,21 @@ function Editor({ onLogout }: { onLogout: () => void }) {
           <div className="flex items-center gap-3">
             <div className="grid h-9 w-9 place-items-center rounded-lg bg-[image:var(--gradient-primary)] text-primary-foreground font-bold text-sm">A</div>
             <div>
-              <div className="font-semibold">Portfolio Admin</div>
-              <div className="text-xs text-muted-foreground">Edit, create & delete content</div>
+              <div className="font-semibold"><span className="hidden md:inline">Portfolio</span> Admin</div>
+              <div className="text-xs text-muted-foreground hidden md:inline">Edit, create & delete content</div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center  md:gap-2">
             <Button variant="outline" size="sm" className="rounded-full" asChild>
-              <Link to="/"><ExternalLink className="h-3.5 w-3.5 mr-1" /> View Site</Link>
+              <Link to="/"><ExternalLink className="h-3.5 w-3.5 mr-1" /> <span className="hidden md:inline">View Site</span></Link>
             </Button>
             <Button variant="outline" size="sm" className="rounded-full" onClick={exportJson}>
-              Export JSON
+             Export <span className="hidden md:inline">JSON</span> 
             </Button>
             <Button variant="ghost" size="sm" className="rounded-full" onClick={onLogout}>
-              <LogOut className="h-3.5 w-3.5 mr-1" /> Logout
+              <LogOut className="h-3.5 w-3.5 mr-1" /> <span className="hidden md:inline">
+                Logout
+              </span>
             </Button>
           </div>
         </div>
